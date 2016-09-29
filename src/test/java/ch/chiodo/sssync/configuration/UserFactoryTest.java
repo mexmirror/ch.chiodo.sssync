@@ -7,23 +7,18 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class UserFactoryTest {
 
     @Test
-    public void testMarshallUser() {
+    public void testMarshallUser() throws Exception{
         UserFactory factory = new UserFactory();
         User user = new User();
         user.setUsername("hans");
         user.setPassword("peter");
         user.setDomainName("company.net");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try {
-            factory.saveUserImpl(user, baos);
-        } catch (JAXBException ex) {
-            fail(ex.getStackTrace().toString());
-        }
+        factory.saveUserImpl(user, baos);
         String excpected =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<user>\n" +
@@ -35,7 +30,7 @@ public class UserFactoryTest {
     }
 
     @Test
-    public void testUnmarshallUser() {
+    public void testUnmarshallUser() throws Exception{
         String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                         "<user>\n" +
@@ -45,14 +40,20 @@ public class UserFactoryTest {
                         "</user>\n";
         UserFactory factory = new UserFactory();
         ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes());
-        User user = null;
-        try {
-            user = factory.buildUserImpl(bais);
-        } catch (JAXBException ex) {
-            fail(ex.getStackTrace().toString());
-        }
+        User user = factory.buildUserImpl(bais);
         assertEquals("hans", user.getUsername());
         assertEquals("peter", user.getPassword());
         assertEquals("company.net", user.getDomainName());
+    }
+
+    @Test(expected = JAXBException.class)
+    public void testInvalidUser() throws Exception{
+        String xml =
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+                        "<wrong>\n" +
+                        "</wrong>\n";
+        UserFactory factory = new UserFactory();
+        ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes());
+        factory.buildUserImpl(bais);
     }
 }

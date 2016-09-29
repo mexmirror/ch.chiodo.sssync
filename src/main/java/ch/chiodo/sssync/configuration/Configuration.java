@@ -7,6 +7,7 @@ import java.util.List;
 @XmlRootElement(name = "configuration")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Configuration {
+
     @XmlElementWrapper(name = "modules")
     @XmlElement(name = "module")
     private List<Module> moduleList;

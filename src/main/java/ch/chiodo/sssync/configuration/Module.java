@@ -2,15 +2,18 @@ package ch.chiodo.sssync.configuration;
 
 import org.joda.time.DateTime;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement(name = "module")
+@XmlType(propOrder = {"name", "sourcePath", "destinationPath", "lastSync"})
 public class Module {
+
     private String name;
     private String sourcePath;
     private String destinationPath;
-
     private DateTime lastSync;
 
     public String getName() {
@@ -21,6 +24,7 @@ public class Module {
         this.name = name;
     }
 
+    @XmlElement(name = "source")
     public String getSourcePath() {
         return sourcePath;
     }
@@ -29,6 +33,7 @@ public class Module {
         this.sourcePath = sourcePath;
     }
 
+    @XmlElement(name = "destination")
     public String getDestinationPath() {
         return destinationPath;
     }
