@@ -4,6 +4,7 @@ import ch.chiodo.sssync.configuration.*;
 import org.joda.time.DateTime;
 
 import javax.xml.bind.JAXBException;
+import java.io.FileNotFoundException;
 
 public class ConsoleEntry {
     public static void main(String[] args) {
@@ -24,7 +25,7 @@ public class ConsoleEntry {
         try{
             //factory.saveConfiguration(c);
             c1 = factory.buildConfiguration();
-        } catch (JAXBException ex){
+        } catch (JAXBException | FileNotFoundException ex){
             ex.printStackTrace();
         }
         System.out.println("c1 = " + c1.getModuleList());
@@ -40,7 +41,7 @@ public class ConsoleEntry {
         try {
             //factory.saveUser(u);
             u1 = factory.buildUser();
-        } catch (JAXBException e) {
+        } catch (JAXBException | FileNotFoundException e) {
             e.printStackTrace();
         }
         u.equals(u1);
