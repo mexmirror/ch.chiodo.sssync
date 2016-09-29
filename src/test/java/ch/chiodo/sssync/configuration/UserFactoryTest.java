@@ -51,6 +51,8 @@ public class UserFactoryTest {
         } catch (JAXBException ex) {
             fail(ex.getStackTrace().toString());
         }
-
+        assertEquals("hans", user.getUsername());
+        assertEquals("peter", user.getPassword());
+        assertEquals("company.net", user.getDomainName());
     }
 }
