@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<configuration>
+    <user>
+      <username>name</username>
+      <password encryption="aes-265-cbc">xxxx</password>
+    </user>
+    <modules>
+        <module>
+            <name>SMS</name>
+            <source type="cifs">smb://skripte.hsr.ch/</source>
+            <destination>/temp</destination>
+            <lastsync>date</lastsync>
+        </module>
+        <module>
+            <name>PrFm</name>
+            <source type="moodle">https://moodle.hsr.ch/</source>
+            <destination>/temp</destination>
+            <lastsync>date</lastsync>
+        </module>
+    </modules>
+</configuration>
+

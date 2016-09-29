@@ -1,0 +1,7 @@
+package ch.chiodo.sssync.sync;
+
+public class DownloadException extends Exception {
+    public DownloadException(Exception cause) {
+        super(cause);
+    }
+}
