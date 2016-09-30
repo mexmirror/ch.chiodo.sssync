@@ -18,13 +18,15 @@ public class ConfigurationFactoryTest {
         m.setName("module1");
         m.setSourcePath("smb://path/to/source");
         m.setDestinationPath("/path/to/dest");
-        m.setLastSync(new DateTime("2016-09-28T12:39:04.539+02:00"));
+        DateTime date1 = DateTime.now().minusHours(2).minusMinutes(12);
+        m.setLastSync(date1);
         configuration.addModule(m);
         m = new Module();
         m.setName("module2");
         m.setSourcePath("smb://path/to/source");
         m.setDestinationPath("/path/to/dest");
-        m.setLastSync(new DateTime("2016-09-25T10:15:04.539+02:00"));
+        DateTime date2 = DateTime.now().minusDays(1).minusHours(16).minusMinutes(36);
+        m.setLastSync(date2);
         configuration.addModule(m);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         factory.saveConfigurationImpl(configuration, baos);
@@ -36,13 +38,13 @@ public class ConfigurationFactoryTest {
                 "            <name>module1</name>\n" +
                 "            <source>smb://path/to/source</source>\n" +
                 "            <destination>/path/to/dest</destination>\n" +
-                "            <lastSync>2016-09-28T12:39:04.539+02:00</lastSync>\n" +
+                "            <lastSync>" + date1.toString() + "</lastSync>\n" +
                 "        </module>\n" +
                 "        <module>\n" +
                 "            <name>module2</name>\n" +
                 "            <source>smb://path/to/source</source>\n" +
                 "            <destination>/path/to/dest</destination>\n" +
-                "            <lastSync>2016-09-25T10:15:04.539+02:00</lastSync>\n" +
+                "            <lastSync>" + date2.toString() +"</lastSync>\n" +
                 "        </module>\n" +
                 "    </modules>\n" +
                 "</configuration>\n";
