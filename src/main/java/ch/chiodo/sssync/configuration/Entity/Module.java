@@ -1,5 +1,6 @@
-package ch.chiodo.sssync.configuration;
+package ch.chiodo.sssync.configuration.Entity;
 
+import ch.chiodo.sssync.configuration.DateTimeAdapter;
 import org.joda.time.DateTime;
 
 import javax.xml.bind.annotation.XmlElement;

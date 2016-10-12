@@ -1,5 +1,7 @@
 package ch.chiodo.sssync.configuration;
 
+import ch.chiodo.sssync.configuration.Entity.Module;
+
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,6 @@ public class Configuration {
     public void setModuleList(List<Module> moduleList) {
         this.moduleList = moduleList;
     }
-
 
     public void addModule(Module m){
         moduleList.add(m);

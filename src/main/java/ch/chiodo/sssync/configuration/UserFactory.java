@@ -1,5 +1,6 @@
 package ch.chiodo.sssync.configuration;
 
+import ch.chiodo.sssync.configuration.Entity.User;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 import javax.xml.bind.JAXBContext;
