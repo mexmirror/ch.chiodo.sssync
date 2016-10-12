@@ -6,7 +6,8 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class ConfigurationFactoryTest {
 
@@ -48,7 +49,7 @@ public class ConfigurationFactoryTest {
                 "        </module>\n" +
                 "    </modules>\n" +
                 "</configuration>\n";
-        assertEquals(expected, baos.toString());
+        assertThat(expected, is(baos.toString()));
     }
 
     @Test
@@ -76,9 +77,9 @@ public class ConfigurationFactoryTest {
         Configuration configuration = factory.buildConfigurationImpl(bais);
         assertEquals(2, configuration.getModuleList().size());
         Module m1 = configuration.getModuleList().get(0);
-        assertEquals("module1", m1.getName());
-        assertEquals("smb://path/to/source", m1.getSourcePath());
-        assertEquals("/path/to/dest", m1.getDestinationPath());
-        assertEquals(new DateTime("2016-09-28T12:39:04.539+02:00"), m1.getLastSync());
+        assertThat("module1", is(m1.getName()));
+        assertThat("smb://path/to/source", is(m1.getSourcePath()));
+        assertThat("/path/to/dest", is(m1.getDestinationPath()));
+        assertThat(new DateTime("2016-09-28T12:39:04.539+02:00"), is(m1.getLastSync()));
     }
 }

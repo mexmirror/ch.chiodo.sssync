@@ -6,7 +6,8 @@ import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class UserFactoryTest {
 
@@ -15,7 +16,7 @@ public class UserFactoryTest {
         UserFactory factory = new UserFactory();
         User user = new User();
         user.setUsername("hans");
-        user.setPassword("peter");
+        user.setEncryptedPassword("peter");
         user.setDomainName("company.net");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         factory.saveUserImpl(user, baos);
@@ -26,7 +27,7 @@ public class UserFactoryTest {
                 "    <domainName>company.net</domainName>\n" +
                 "    <password>peter</password>\n" +
                 "</user>\n";
-        assertEquals(excpected, baos.toString());
+        assertThat(excpected, is(baos.toString()));
     }
 
     @Test
@@ -41,9 +42,9 @@ public class UserFactoryTest {
         UserFactory factory = new UserFactory();
         ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes());
         User user = factory.buildUserImpl(bais);
-        assertEquals("hans", user.getUsername());
-        assertEquals("peter", user.getPassword());
-        assertEquals("company.net", user.getDomainName());
+        assertThat("hans", is(user.getUsername()));
+        assertThat("peter", is(user.getEncryptedPassword()));
+        assertThat("company.net", is(user.getDomainName()));
     }
 
     @Test(expected = JAXBException.class)
