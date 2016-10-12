@@ -1,21 +1,20 @@
-package ch.chiodo.sssync.configuration;
+package ch.chiodo.sssync.configuration.Entity;
 
-import ch.chiodo.sssync.sync.EncryptedString;
-
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name="user")
-@XmlType(propOrder = {"username", "domainName", "password"})
+@XmlType(propOrder = {"username", "domainName", "encryptedPassword"})
 public class User {
 
     private String username;
     private String domainName;
-    private EncryptedString password;
+    private EncryptedString encryptedPassword;
 
     public User() {
-        password = new EncryptedString();
+
     }
 
     @XmlElement(required = true)
@@ -36,12 +35,12 @@ public class User {
         this.domainName = domainName;
     }
 
-    @XmlElement(required = true)
-    public String getPassword() {
-        return password.getString();
+    @XmlElement(name = "password", required = true)
+    public EncryptedString getEncryptedPassword() {
+        return encryptedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password.setString(password);
+    public void setEncryptedPassword(EncryptedString encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
 }

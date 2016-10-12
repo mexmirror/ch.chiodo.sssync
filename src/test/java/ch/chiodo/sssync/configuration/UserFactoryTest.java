@@ -1,5 +1,7 @@
 package ch.chiodo.sssync.configuration;
 
+import ch.chiodo.sssync.configuration.Entity.EncryptedString;
+import ch.chiodo.sssync.configuration.Entity.User;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
@@ -16,7 +18,10 @@ public class UserFactoryTest {
         UserFactory factory = new UserFactory();
         User user = new User();
         user.setUsername("hans");
-        user.setEncryptedPassword("peter");
+        EncryptedString es = new EncryptedString();
+        es.setCipherText("peter".getBytes());
+        es.setInitVector("iv".getBytes());
+        user.setEncryptedPassword(es);
         user.setDomainName("company.net");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         factory.saveUserImpl(user, baos);
@@ -25,7 +30,7 @@ public class UserFactoryTest {
                 "<user>\n" +
                 "    <username>hans</username>\n" +
                 "    <domainName>company.net</domainName>\n" +
-                "    <password>peter</password>\n" +
+                "    <password iv=\"aXY=\">cGV0ZXI=</password>\n" +
                 "</user>\n";
         assertThat(excpected, is(baos.toString()));
     }
@@ -37,13 +42,14 @@ public class UserFactoryTest {
                         "<user>\n" +
                         "    <username>hans</username>\n" +
                         "    <domainName>company.net</domainName>\n" +
-                        "    <password>peter</password>\n" +
+                        "    <password iv=\"aXY=\">cGV0ZXI=</password>\n" +
                         "</user>\n";
         UserFactory factory = new UserFactory();
         ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes());
         User user = factory.buildUserImpl(bais);
         assertThat("hans", is(user.getUsername()));
-        assertThat("peter", is(user.getEncryptedPassword()));
+        assertThat("peter".getBytes(), is(user.getEncryptedPassword().getCipherText()));
+        assertThat("iv".getBytes(), is(user.getEncryptedPassword().getInitVector()));
         assertThat("company.net", is(user.getDomainName()));
     }
 
