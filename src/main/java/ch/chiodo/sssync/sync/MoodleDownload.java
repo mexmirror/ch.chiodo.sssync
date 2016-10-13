@@ -9,7 +9,7 @@ import java.security.KeyStoreException;
 public class MoodleDownload implements Download {
 
     @Override
-    public void StartDownload(String source, String destination, EncryptedString password) throws DownloadException, MalformedURLException, UnknownHostException, KeyStoreException {
+    public void StartDownload(String source, String destination, EncryptedString password) throws DownloadException, KeyStoreException {
 
     }
 }

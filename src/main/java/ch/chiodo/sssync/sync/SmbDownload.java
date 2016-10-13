@@ -32,12 +32,12 @@ public class SmbDownload implements Download {
     }
 
     @Override
-    public void StartDownload(String source, String destination, EncryptedString password) throws DownloadException, MalformedURLException, UnknownHostException, KeyStoreException {
+    public void StartDownload(String source, String destination, EncryptedString password) throws DownloadException, KeyStoreException {
         try {
             NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, username, keyStore.decrypt(password));
             SmbFile root = new SmbFile(source, auth);
             DownloadFile(root, destination);
-        } catch (SmbException ex){
+        } catch (SmbException | MalformedURLException | UnknownHostException ex){
             throw new DownloadException(ex);
         } catch (NoSuchPaddingException |
                 InvalidKeyException |
