@@ -1,7 +1,5 @@
 package ch.chiodo.sssync.configuration;
 
-import com.sun.corba.se.impl.io.TypeMismatchException;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -23,7 +21,7 @@ public class ConfigurationFactory {
         if(o instanceof Configuration) {
             return (Configuration)o;
         }
-        throw new TypeMismatchException("Configuration could not be unmarshalled. Types do not match");
+        throw new ClassMismatchException("Configuration could not be unmarshalled. Types do not match");
     }
 
     public void saveConfiguration(Configuration configuration) throws JAXBException, FileNotFoundException{

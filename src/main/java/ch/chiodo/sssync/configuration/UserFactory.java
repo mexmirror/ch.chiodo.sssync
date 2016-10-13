@@ -1,7 +1,6 @@
 package ch.chiodo.sssync.configuration;
 
 import ch.chiodo.sssync.configuration.Entity.User;
-import com.sun.corba.se.impl.io.TypeMismatchException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -24,7 +23,7 @@ public class UserFactory {
         if(o instanceof User){
             return (User)o;
         }
-        throw new TypeMismatchException("User configuration could not be unmarshalled. Types do not match");
+        throw new ClassMismatchException("User configuration could not be unmarshalled. Types do not match");
     }
 
     public void saveUser(User user) throws JAXBException, FileNotFoundException {
