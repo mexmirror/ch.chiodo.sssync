@@ -19,7 +19,6 @@ public class SecurePasswordStore {
     private static final String PBKDF_2_WITH_HMAC_SHA_256 = "PBKDF2WithHmacSHA256";
     private static final String AES = "AES";
     private static final String AES_CBC_PKCS5_PADDING = "AES/CBC/PKCS5Padding";
-    private static final String UTF_8 = "UTF-8";
     private SecretKey secret;
 
     public SecurePasswordStore(KeySpec spec) throws InvalidKeySpecException, NoSuchAlgorithmException {
@@ -33,7 +32,7 @@ public class SecurePasswordStore {
         cipher.init(Cipher.ENCRYPT_MODE, secret);
         AlgorithmParameters params = cipher.getParameters();
         byte[] iv = params.getParameterSpec(IvParameterSpec.class).getIV();
-        byte[] cipherText = cipher.doFinal(sensitiveString.getBytes(UTF_8));
+        byte[] cipherText = cipher.doFinal(sensitiveString.getBytes());
         EncryptedString encryptedString = new EncryptedString();
         encryptedString.setCipherText(cipherText);
         encryptedString.setInitVector(iv);
@@ -43,7 +42,7 @@ public class SecurePasswordStore {
     public String decrypt(EncryptedString encryptedString) throws NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, InvalidKeyException, InvalidAlgorithmParameterException {
         Cipher cipher = Cipher.getInstance(AES_CBC_PKCS5_PADDING);
         cipher.init(Cipher.DECRYPT_MODE, secret, new IvParameterSpec(encryptedString.getInitVector()));
-        return new String(cipher.doFinal(encryptedString.getCipherText()), UTF_8);
+        return new String(cipher.doFinal(encryptedString.getCipherText()));
     }
 
 }
