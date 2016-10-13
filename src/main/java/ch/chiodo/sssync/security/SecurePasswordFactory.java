@@ -8,7 +8,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
 public class SecurePasswordFactory {
-    SecurePasswordFile passwordFile;
+    private static final int ITERATION_COUNT = 65536;
+    private static final int KEY_LENGTH = 128;
+    private SecurePasswordFile passwordFile;
 
     public SecurePasswordStore createPasswordStore(String masterPassword) throws IOException, ClassNotFoundException, InvalidKeySpecException, NoSuchAlgorithmException {
         File file = new File(SecurePasswordFile.SECURE_PASSWORD_FILE);
@@ -17,7 +19,7 @@ public class SecurePasswordFactory {
         } else {
             passwordFile = createPasswordFile();
         }
-        KeySpec spec = new PBEKeySpec(masterPassword.toCharArray(), passwordFile.getSalt(), 65536, 128);
+        KeySpec spec = new PBEKeySpec(masterPassword.toCharArray(), passwordFile.getSalt(), ITERATION_COUNT, KEY_LENGTH);
         return new SecurePasswordStore(spec);
     }
 
