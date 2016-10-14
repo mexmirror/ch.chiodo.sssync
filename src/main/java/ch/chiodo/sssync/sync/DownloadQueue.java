@@ -4,17 +4,17 @@ import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class DownloadQueue {
-    private Deque<DownloadTask> queue;
+    private Deque<Runnable> queue;
 
     public DownloadQueue() {
         queue = new ConcurrentLinkedDeque<>();
     }
 
-    public void enqueue(DownloadTask download) {
+    public void enqueue(Runnable download) {
         queue.addFirst(download);
     }
 
-    public DownloadTask dequeue() {
+    public Runnable dequeue() {
         return queue.removeLast();
     }
 
@@ -24,5 +24,9 @@ public class DownloadQueue {
 
     public int size() {
         return queue.size();
+    }
+
+    public void clear() {
+        queue.clear();
     }
 }

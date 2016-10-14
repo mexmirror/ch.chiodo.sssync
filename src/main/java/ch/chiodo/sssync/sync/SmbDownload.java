@@ -62,7 +62,7 @@ public class SmbDownload implements Download {
         queue.enqueue(new SmbDownloadTask(root, new File(destination)));
     }
 
-    public class SmbDownloadTask extends Observable implements DownloadTask, Runnable{
+    public class SmbDownloadTask extends Observable implements Runnable{
         private SmbFile source;
         private File destination;
 
@@ -78,7 +78,7 @@ public class SmbDownload implements Download {
                     IOUtils.copy(inputStream, fos);
                 }
             } catch (IOException e) {
-                DownloadException arg = new DownloadException(String.format("%s", source.getName()), e);
+                DownloadException arg = new DownloadException(String.format("An error occurred while downloading: %s", source.getName()), e);
                 notifyObservers(arg);
             }
 
