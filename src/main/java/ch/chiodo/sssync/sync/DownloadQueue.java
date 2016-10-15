@@ -4,29 +4,29 @@ import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class DownloadQueue {
-    private Deque<Runnable> queue;
+    private Deque<DownloadTask> queue;
 
     public DownloadQueue() {
         queue = new ConcurrentLinkedDeque<>();
     }
 
-    public void enqueue(Runnable download) {
+    public void enqueue(DownloadTask download) {
         queue.addFirst(download);
     }
 
-    public Runnable dequeue() {
-        return queue.removeLast();
+    public DownloadTask dequeue() {
+        return queue.pollLast();
     }
 
-    public boolean hasElementEnqueued() {
-        return queue.peekLast() != null;
-    }
-
-    public int size() {
-        return queue.size();
+    public boolean isEmtpy() {
+        return queue.peekLast() == null;
     }
 
     public void clear() {
         queue.clear();
+    }
+
+    boolean contains(DownloadTask task) {
+        return queue.contains(task);
     }
 }

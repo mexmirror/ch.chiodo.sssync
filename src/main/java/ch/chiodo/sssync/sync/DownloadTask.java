@@ -1,6 +1,6 @@
 package ch.chiodo.sssync.sync;
 
-@FunctionalInterface
-public interface DownloadTask {
-    void run();
+import java.util.Observable;
+
+public abstract class DownloadTask extends Observable implements Runnable{
 }
