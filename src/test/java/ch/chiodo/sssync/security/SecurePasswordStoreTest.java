@@ -16,7 +16,7 @@ public class SecurePasswordStoreTest {
     }
 
     @Test
-    public void testCrypto() throws Exception {
+    public void crypto() throws Exception {
         String plain = "sensitive";
         EncryptedString encryptedString = store.encrypt(plain);
         String s = new String(encryptedString.getCipherText());

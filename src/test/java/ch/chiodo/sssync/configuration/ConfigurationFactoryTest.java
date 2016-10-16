@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.*;
 public class ConfigurationFactoryTest {
 
     @Test
-    public void testMarshallConfiguration() throws Exception {
+    public void marshallConfiguration() throws Exception {
         ConfigurationFactory factory = new ConfigurationFactory();
         Configuration configuration = new Configuration();
         Module m = new Module();
@@ -54,7 +54,7 @@ public class ConfigurationFactoryTest {
     }
 
     @Test
-    public void testUnmarshallConfiguration() throws Exception {
+    public void unmarshallConfiguration() throws Exception {
         String xml =
                 "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n" +
                         "<configuration>\n" +

@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.*;
 public class UserFactoryTest {
 
     @Test
-    public void testMarshallUser() throws Exception{
+    public void marshallUser() throws Exception{
         UserFactory factory = new UserFactory();
         User user = new User();
         user.setUsername("hans");
@@ -36,7 +36,7 @@ public class UserFactoryTest {
     }
 
     @Test
-    public void testUnmarshallUser() throws Exception{
+    public void unmarshallUser() throws Exception{
         String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                         "<user>\n" +
@@ -54,7 +54,7 @@ public class UserFactoryTest {
     }
 
     @Test(expected = JAXBException.class)
-    public void testInvalidUser() throws Exception{
+    public void invalidUser() throws Exception{
         String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                         "<wrong>\n" +
