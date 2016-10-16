@@ -66,7 +66,7 @@ public class DownloadQueueTest {
         assertThat(q.isEmtpy(), is(true));
     }
 
-    private Matcher<List<DownloadTask>> containsInOrder (DownloadTask... excpected) {
+    private Matcher<List<DownloadTask>> containsInOrder (DownloadTask... expected) {
         return new BaseMatcher<List<DownloadTask>>() {
             @Override
             public boolean matches(Object result) {
@@ -75,11 +75,11 @@ public class DownloadQueueTest {
                 }
                 @SuppressWarnings("unchecked")
                 List<DownloadTask> list = (List<DownloadTask>)result;
-                if(excpected.length != list.size()){
+                if(expected.length != list.size()){
                     return false;
                 }
                 for(int i = 0; i < list.size(); i++){
-                    if(!excpected[i].equals(list.get(i))){
+                    if(!expected[i].equals(list.get(i))){
                         return false;
                     }
                 }
@@ -88,7 +88,7 @@ public class DownloadQueueTest {
 
             @Override
             public void describeTo(Description description) {
-                description.appendText("list should be: ").appendValue(excpected);
+                description.appendText("list should be: ").appendValue(expected);
             }
 
             @Override
