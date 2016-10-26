@@ -1,4 +1,4 @@
-package ch.chiodo.sssync.sync;
+package ch.chiodo.sssync.sync.network;
 
 import ch.chiodo.sssync.configuration.Entity.EncryptedString;
 

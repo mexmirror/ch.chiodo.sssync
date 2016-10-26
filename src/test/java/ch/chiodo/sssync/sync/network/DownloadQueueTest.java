@@ -1,5 +1,7 @@
-package ch.chiodo.sssync.sync;
+package ch.chiodo.sssync.sync.network;
 
+import ch.chiodo.sssync.sync.network.DownloadQueue;
+import ch.chiodo.sssync.sync.network.DownloadTask;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

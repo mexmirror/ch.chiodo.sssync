@@ -1,4 +1,4 @@
-package ch.chiodo.sssync.sync;
+package ch.chiodo.sssync.sync.network;
 
 import java.util.Observable;
 
