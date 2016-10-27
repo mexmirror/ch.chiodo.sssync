@@ -33,4 +33,9 @@ public class SmbTransferFile implements TransferFile {
     public OutputStream createOutputStream() throws IOException {
         return file.getOutputStream();
     }
+
+    @Override
+    public String getFilePath() {
+        return file.getPath();
+    }
 }

@@ -23,4 +23,9 @@ public class LocalTransferFile implements TransferFile {
     public OutputStream createOutputStream() throws FileNotFoundException {
         return new FileOutputStream(file);
     }
+
+    @Override
+    public String getFilePath() {
+        return file.getAbsolutePath();
+    }
 }

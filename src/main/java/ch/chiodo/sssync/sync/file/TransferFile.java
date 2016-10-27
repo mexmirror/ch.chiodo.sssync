@@ -10,4 +10,5 @@ public interface TransferFile {
     boolean delete() throws IOException;
     InputStream createInputStream() throws IOException;
     OutputStream createOutputStream() throws IOException;
+    String getFilePath();
 }
