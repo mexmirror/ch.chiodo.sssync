@@ -1,7 +1,8 @@
-package ch.chiodo.sssync.sync;
+package ch.chiodo.sssync.sync.network;
 
 import ch.chiodo.sssync.configuration.Entity.EncryptedString;
 import ch.chiodo.sssync.security.SecurePasswordStore;
+import ch.chiodo.sssync.sync.file.*;
 import jcifs.smb.*;
 import org.apache.commons.io.IOUtils;
 
@@ -12,7 +13,6 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.security.*;
-import java.util.Observable;
 
 public class SmbDownload implements Download {
     private String username;
@@ -59,30 +59,8 @@ public class SmbDownload implements Download {
                 DownloadFile(f, destination);
             }
         }
-        queue.enqueue(new SmbDownloadTask(root, new File(destination)));
-    }
-
-    public class SmbDownloadTask extends DownloadTask {
-        private SmbFile source;
-        private File destination;
-
-        public SmbDownloadTask(SmbFile source, File destination) {
-            this.source = source;
-            this.destination = destination;
-        }
-
-        @Override
-        public void run() {
-            try (SmbFileInputStream inputStream = new SmbFileInputStream(source)){
-                try(FileOutputStream fos = new FileOutputStream(destination)) {
-                    IOUtils.copy(inputStream, fos);
-                }
-                notifyObservers(source.getName());
-            } catch (IOException e) {
-                DownloadException arg = new DownloadException(String.format("An error occurred while downloading: %s", source.getName()), e);
-                notifyObservers(arg);
-            }
-
-        }
+        TransferFile sourceFile = new SmbTransferFile(root);
+        TransferFile destinationFile = new LocalTransferFile(new File(destination));
+        queue.enqueue(new SmbDownloadTask(sourceFile, destinationFile));
     }
 }
