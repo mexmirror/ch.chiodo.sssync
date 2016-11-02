@@ -11,4 +11,6 @@ public interface TransferFile {
     InputStream createInputStream() throws IOException;
     OutputStream createOutputStream() throws IOException;
     String getFilePath();
+    boolean exists();
+    String getName();
 }

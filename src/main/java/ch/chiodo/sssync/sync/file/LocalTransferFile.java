@@ -28,4 +28,14 @@ public class LocalTransferFile implements TransferFile {
     public String getFilePath() {
         return file.getAbsolutePath();
     }
+
+    @Override
+    public boolean exists() {
+        return file.exists();
+    }
+
+    @Override
+    public String getName() {
+        return file.getName();
+    }
 }

@@ -38,4 +38,21 @@ public class SmbTransferFile implements TransferFile {
     public String getFilePath() {
         return file.getPath();
     }
+
+    @Override
+    public boolean exists() {
+        boolean result = false;
+        try {
+            result = file.exists();
+        } catch (SmbException e) {
+            e.printStackTrace();
+            //TODO: log
+        }
+        return result;
+    }
+
+    @Override
+    public String getName() {
+        return file.getName();
+    }
 }
