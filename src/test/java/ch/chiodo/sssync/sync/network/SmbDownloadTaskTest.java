@@ -12,7 +12,7 @@ import static org.mockito.Mockito.any;
 public class SmbDownloadTaskTest {
     @Test
     public void startTransferFileNotExists() throws Exception {
-        SmbDownloadTask t = new SmbDownloadTask(null, null);
+        SmbDownloadTask t = new SmbDownloadTask(null, null, new NullObserver());
         TransferFile source = mock(TransferFile.class);
         TransferFile destination = mock(TransferFile.class);
         when(destination.exists()).thenReturn(false);
@@ -24,7 +24,7 @@ public class SmbDownloadTaskTest {
 
     @Test
     public void startTransferFileExists() throws Exception {
-        SmbDownloadTask t = new SmbDownloadTask(null, null);
+        SmbDownloadTask t = new SmbDownloadTask(null, null, new NullObserver());
         TransferFile source = mock(SmbTransferFile.class);
         TransferFile destination = mock(TransferFile.class);
         when(destination.exists()).thenReturn(true);

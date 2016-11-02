@@ -4,7 +4,6 @@ import ch.chiodo.sssync.configuration.Entity.EncryptedString;
 import ch.chiodo.sssync.security.SecurePasswordStore;
 import ch.chiodo.sssync.sync.file.*;
 import jcifs.smb.*;
-import org.apache.commons.io.IOUtils;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -13,22 +12,28 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.security.*;
+import java.util.Observer;
 
 public class SmbDownload implements Download {
+    private final Observer observer;
     private String username;
     private SecurePasswordStore keyStore;
     private String domain;
     private DownloadQueue queue;
 
     public SmbDownload(String username, String domain, SecurePasswordStore keyStore) {
-        this(username, domain, keyStore, new DownloadQueue());
+        this(username, domain, keyStore, new NullObserver());
+    }
+    public SmbDownload(String username, String domain, SecurePasswordStore keyStore, Observer observer) {
+        this(username, domain, keyStore, new DownloadQueue(), observer);
     }
 
-    public SmbDownload(String username, String domain, SecurePasswordStore keyStore, DownloadQueue queue) {
+    public SmbDownload(String username, String domain, SecurePasswordStore keyStore, DownloadQueue queue, Observer observer) {
         this.username = username;
         this.domain = domain;
         this.keyStore = keyStore;
         this.queue = queue;
+        this.observer = observer;
     }
 
     @Override
@@ -61,6 +66,7 @@ public class SmbDownload implements Download {
         }
         TransferFile sourceFile = new SmbTransferFile(root);
         TransferFile destinationFile = new LocalTransferFile(new File(destination));
-        queue.enqueue(new SmbDownloadTask(sourceFile, destinationFile));
+        queue.enqueue(new SmbDownloadTask(sourceFile, destinationFile, observer));
     }
+
 }

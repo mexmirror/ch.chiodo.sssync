@@ -5,14 +5,16 @@ import jcifs.smb.SmbFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Observer;
 
 public class SmbDownloadTask extends DownloadTask {
     private final TransferFile source;
     private final TransferFile destination;
 
-    public SmbDownloadTask(TransferFile source, TransferFile destination) {
+    public SmbDownloadTask(TransferFile source, TransferFile destination, Observer observer) {
         this.source = source;
         this.destination = destination;
+        this.addObserver(observer);
     }
 
     @Override
