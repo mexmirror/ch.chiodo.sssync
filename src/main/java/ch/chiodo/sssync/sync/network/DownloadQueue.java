@@ -18,7 +18,7 @@ public class DownloadQueue {
         return queue.pollLast();
     }
 
-    public boolean isEmtpy() {
+    public boolean isEmpty() {
         return queue.peekLast() == null;
     }
 

@@ -14,7 +14,7 @@ public class DownloadExecutor {
     public void start() {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         Runnable r = () -> {
-            while(!queue.isEmtpy()) {
+            while(!queue.isEmpty()) {
                 threadPool.submit(queue.dequeue());
             }
         };

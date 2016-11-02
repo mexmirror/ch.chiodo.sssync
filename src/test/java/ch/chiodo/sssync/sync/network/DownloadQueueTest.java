@@ -1,7 +1,5 @@
 package ch.chiodo.sssync.sync.network;
 
-import ch.chiodo.sssync.sync.network.DownloadQueue;
-import ch.chiodo.sssync.sync.network.DownloadTask;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -39,7 +37,7 @@ public class DownloadQueueTest {
         q.enqueue(a);
         DownloadTask result = q.dequeue();
         assertThat(result, is(a));
-        assertThat(q.isEmtpy(), is(true));
+        assertThat(q.isEmpty(), is(true));
     }
 
     @Test
@@ -51,9 +49,9 @@ public class DownloadQueueTest {
         q.enqueue(d2);
         DownloadTask d3 = mock(DownloadTask.class);
         q.enqueue(d3);
-        assertThat(q.isEmtpy(), is(false));
+        assertThat(q.isEmpty(), is(false));
         List<DownloadTask> list = new ArrayList<>();
-        while(!q.isEmtpy()) {
+        while(!q.isEmpty()) {
             list.add(q.dequeue());
         }
         assertThat(list, containsInOrder(d1, d2, d3));
@@ -65,7 +63,7 @@ public class DownloadQueueTest {
         DownloadTask d = mock(DownloadTask.class);
         q.enqueue(d);
         q.clear();
-        assertThat(q.isEmtpy(), is(true));
+        assertThat(q.isEmpty(), is(true));
     }
 
     private Matcher<List<DownloadTask>> containsInOrder (DownloadTask... expected) {
