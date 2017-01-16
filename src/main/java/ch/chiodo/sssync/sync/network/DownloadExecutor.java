@@ -1,28 +1,38 @@
 package ch.chiodo.sssync.sync.network;
 
+import java.time.Duration;
+import java.util.Deque;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.*;
 
 public class DownloadExecutor {
     private ForkJoinPool threadPool = ForkJoinPool.commonPool();
-    private final DownloadQueue queue;
-    private ScheduledFuture<?> handle;
+    private Deque<DownloadTask> queue;
+    private Timer timer;
 
-    public DownloadExecutor(DownloadQueue queue) {
+
+    public DownloadExecutor(Deque<DownloadTask> queue) {
         this.queue = queue;
     }
 
     public void start() {
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        Runnable r = () -> {
-            while(!queue.isEmpty()) {
-                threadPool.submit(queue.dequeue());
-            }
-        };
-        handle = scheduler.scheduleAtFixedRate(r, 0, 1, TimeUnit.SECONDS);
+        timer = new Timer();
+        timer.schedule(new QueueTimerTask(), Duration.ofSeconds(1).toMillis());
     }
 
     public void stop() {
-        handle.cancel(false);
+        timer.cancel();
         queue.clear();
+    }
+
+    private class QueueTimerTask extends TimerTask {
+        @Override
+        public void run() {
+            //TODO: This is not very clever
+            while(!queue.isEmpty()){
+                threadPool.submit(queue.poll());
+            }
+        }
     }
 }

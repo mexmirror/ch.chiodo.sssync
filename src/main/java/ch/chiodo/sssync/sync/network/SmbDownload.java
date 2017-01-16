@@ -12,23 +12,25 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.security.*;
+import java.util.Deque;
 import java.util.Observer;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class SmbDownload implements Download {
     private final Observer observer;
     private String username;
     private SecurePasswordStore keyStore;
     private String domain;
-    private DownloadQueue queue;
+    private Deque<DownloadTask> queue;
 
     public SmbDownload(String username, String domain, SecurePasswordStore keyStore) {
         this(username, domain, keyStore, new NullObserver());
     }
     public SmbDownload(String username, String domain, SecurePasswordStore keyStore, Observer observer) {
-        this(username, domain, keyStore, new DownloadQueue(), observer);
+        this(username, domain, keyStore, new ConcurrentLinkedDeque<>(), observer);
     }
 
-    public SmbDownload(String username, String domain, SecurePasswordStore keyStore, DownloadQueue queue, Observer observer) {
+    public SmbDownload(String username, String domain, SecurePasswordStore keyStore, Deque<DownloadTask> queue, Observer observer) {
         this.username = username;
         this.domain = domain;
         this.keyStore = keyStore;
@@ -57,16 +59,20 @@ public class SmbDownload implements Download {
         }
     }
 
-    private void DownloadFile(SmbFile root, String destination) throws SmbException, MalformedURLException, UnknownHostException {
+    private void DownloadFile(SmbFile root, String destinationFolder) throws SmbException, MalformedURLException, UnknownHostException {
         if(root.isDirectory()) {
             SmbFile[] files = root.listFiles();
             for(SmbFile f: files){
-                DownloadFile(f, destination);
+                DownloadFile(f, destinationFolder);
             }
         }
         TransferFile sourceFile = new SmbTransferFile(root);
+        String destination = destinationFolder + sourceFile.getName();
         TransferFile destinationFile = new LocalTransferFile(new File(destination));
-        queue.enqueue(new SmbDownloadTask(sourceFile, destinationFile, observer));
+        queue.addLast(new SmbDownloadTask(sourceFile, destinationFile, observer));
     }
 
+    public Deque<DownloadTask> getQueue() {
+        return queue;
+    }
 }
