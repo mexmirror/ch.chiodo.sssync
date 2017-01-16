@@ -16,7 +16,7 @@ import java.security.spec.KeySpec;
  * Source: http://stackoverflow.com/questions/992019/java-256-bit-aes-password-based-encryption/992413
  */
 public class SecurePasswordStore {
-    private static final String PBKDF_2_WITH_HMAC_SHA_256 = "PBKDF2WithHmacSHA256";
+    private static final String PBKDF_2_WITH_HMAC_SHA_256 = "PBKDF2WithHmacSHA1";
     private static final String AES = "AES";
     private static final String AES_CBC_PKCS5_PADDING = "AES/CBC/PKCS5Padding";
     private SecretKey secret;

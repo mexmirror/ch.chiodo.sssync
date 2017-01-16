@@ -30,13 +30,14 @@ public class SecurePasswordFactory {
     }
 
     private static SecurePasswordFile loadPasswordFile() throws IOException, ClassNotFoundException {
-        ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SecurePasswordFile.SECURE_PASSWORD_FILE));
-        return (SecurePasswordFile)inputStream.readObject();
-
+        try(ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SecurePasswordFile.SECURE_PASSWORD_FILE))) {
+            return (SecurePasswordFile)inputStream.readObject();
+        }
     }
 
-    public void savePasswordStore(SecurePasswordStore store) throws IOException {
-        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SecurePasswordFile.SECURE_PASSWORD_FILE));
-        outputStream.writeObject(passwordFile);
+    public void savePasswordStore() throws IOException {
+        try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SecurePasswordFile.SECURE_PASSWORD_FILE))) {
+            outputStream.writeObject(passwordFile);
+        }
     }
 }
