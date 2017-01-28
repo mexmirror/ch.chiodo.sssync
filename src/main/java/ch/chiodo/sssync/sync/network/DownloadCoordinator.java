@@ -14,7 +14,9 @@ public class DownloadCoordinator extends Observable implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         DownloadTask task = queue.poll();
-        if(task == null) return;
+        if(task == null) {
+            return;
+        }
         threadPool.submit(task);
         setChanged();
         notifyObservers(task);

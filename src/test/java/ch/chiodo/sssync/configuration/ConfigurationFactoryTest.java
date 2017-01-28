@@ -1,6 +1,6 @@
 package ch.chiodo.sssync.configuration;
 
-import ch.chiodo.sssync.configuration.Entity.Module;
+import ch.chiodo.sssync.configuration.entity.Module;
 import org.joda.time.DateTime;
 import org.junit.Test;
 

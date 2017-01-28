@@ -1,6 +1,6 @@
 package ch.chiodo.sssync.configuration;
 
-import ch.chiodo.sssync.configuration.Entity.Module;
+import ch.chiodo.sssync.configuration.entity.Module;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;

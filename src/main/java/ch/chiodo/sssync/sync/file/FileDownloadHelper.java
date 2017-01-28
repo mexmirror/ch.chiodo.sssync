@@ -8,6 +8,9 @@ public class FileDownloadHelper {
     private static final String PATH_DELIMITER = "\\.(?=[^.]*$)";
     public static final String DATE_FORMAT_PATTERN = "dd-MM-yyyy-HH-mm";
 
+    private FileDownloadHelper() {
+        //Empty private constructor to avoid instanciation of class
+    }
     public static String getFilenameWithDate(String currentAbsolutePath) {
         String[] split = currentAbsolutePath.split(PATH_DELIMITER);
         String newName = split[0].concat("_").concat(getDateTimeString());
