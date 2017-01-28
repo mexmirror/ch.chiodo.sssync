@@ -1,6 +1,5 @@
-package ch.chiodo.sssync.configuration.Entity;
+package ch.chiodo.sssync.configuration.entity;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -12,10 +11,6 @@ public class User {
     private String username;
     private String domainName;
     private EncryptedString encryptedPassword;
-
-    public User() {
-
-    }
 
     @XmlElement(required = true)
     public String getUsername() {

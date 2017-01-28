@@ -1,7 +1,7 @@
 package ch.chiodo.sssync.configuration;
 
-import ch.chiodo.sssync.configuration.Entity.EncryptedString;
-import ch.chiodo.sssync.configuration.Entity.User;
+import ch.chiodo.sssync.configuration.entity.EncryptedString;
+import ch.chiodo.sssync.configuration.entity.User;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;

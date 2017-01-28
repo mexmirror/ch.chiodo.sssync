@@ -1,6 +1,6 @@
 package ch.chiodo.sssync.configuration;
 
-import ch.chiodo.sssync.configuration.Entity.User;
+import ch.chiodo.sssync.configuration.entity.User;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

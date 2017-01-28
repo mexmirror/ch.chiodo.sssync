@@ -1,6 +1,6 @@
 package ch.chiodo.sssync.security;
 
-import ch.chiodo.sssync.configuration.Entity.EncryptedString;
+import ch.chiodo.sssync.configuration.entity.EncryptedString;
 import org.junit.Before;
 import org.junit.Test;
 

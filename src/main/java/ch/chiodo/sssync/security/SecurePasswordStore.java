@@ -1,6 +1,6 @@
 package ch.chiodo.sssync.security;
 
-import ch.chiodo.sssync.configuration.Entity.EncryptedString;
+import ch.chiodo.sssync.configuration.entity.EncryptedString;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;

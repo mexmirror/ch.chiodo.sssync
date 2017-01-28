@@ -1,9 +1,7 @@
 package ch.chiodo.sssync.sync.network;
 
-import ch.chiodo.sssync.configuration.Entity.EncryptedString;
+import ch.chiodo.sssync.configuration.entity.EncryptedString;
 import ch.chiodo.sssync.security.SecurePasswordStore;
-import ch.chiodo.sssync.sync.network.Download;
-import ch.chiodo.sssync.sync.network.SmbDownload;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
@@ -16,6 +14,6 @@ public class SmbDownloadTest {
         when(store.decrypt(es)).thenReturn("qwertz");
         String user = "test";
         Download download = new SmbDownload(user, null, store);
-        //download.StartDownload("smb://ns.wg.int/home/", "./tmp", es);
+        //download.startDownload("smb://ns.wg.int/home/", "./tmp", es);
     }
 }

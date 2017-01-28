@@ -41,12 +41,11 @@ public class SmbTransferFile implements TransferFile {
 
     @Override
     public boolean exists() {
-        boolean result = false;
+        boolean result;
         try {
             result = file.exists();
         } catch (SmbException e) {
-            e.printStackTrace();
-            //TODO: log
+            throw new NetworkException(e);
         }
         return result;
     }
