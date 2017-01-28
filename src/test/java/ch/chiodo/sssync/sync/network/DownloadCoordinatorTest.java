@@ -7,6 +7,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
 
 import static org.mockito.Mockito.*;
 
@@ -18,8 +20,17 @@ public class DownloadCoordinatorTest {
         Queue<DownloadTask> queue = new ArrayDeque<DownloadTask>(){{
             add(t);
         }};
-        DownloadCoordinator dc = new DownloadCoordinator(queue);
-        dc.update(t, null);
+        DownloadCoordinator dc = new DownloadCoordinator(new FakeThreadPool(), queue);
+        dc.update(null, null);
         verify(t, times(1)).run();
+    }
+
+    private class FakeThreadPool extends ForkJoinPool {
+        @Override
+        public ForkJoinTask<?> submit(Runnable task) {
+            task.run();
+            //noinspection ConstantConditions
+            return null;
+        }
     }
 }

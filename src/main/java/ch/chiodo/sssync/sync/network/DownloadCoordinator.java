@@ -4,10 +4,15 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class DownloadCoordinator extends Observable implements Observer {
-    private ForkJoinPool threadPool = ForkJoinPool.commonPool();
+    private ForkJoinPool threadPool;
     private Queue<DownloadTask> queue;
 
     public DownloadCoordinator(Queue<DownloadTask> queue) {
+        this(ForkJoinPool.commonPool(), queue);
+    }
+
+    public DownloadCoordinator(ForkJoinPool threadPool, Queue<DownloadTask> queue) {
+        this.threadPool = threadPool;
         this.queue = queue;
     }
 
