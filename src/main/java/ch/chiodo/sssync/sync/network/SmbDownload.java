@@ -1,6 +1,6 @@
 package ch.chiodo.sssync.sync.network;
 
-import ch.chiodo.sssync.configuration.Entity.EncryptedString;
+import ch.chiodo.sssync.configuration.entity.EncryptedString;
 import ch.chiodo.sssync.security.SecurePasswordStore;
 import ch.chiodo.sssync.sync.file.*;
 import jcifs.smb.*;
@@ -12,67 +12,61 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.security.*;
-import java.util.Deque;
+import java.util.ArrayDeque;
+import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.Queue;
 
-public class SmbDownload implements Download {
+public class SmbDownload extends Observable implements Download {
     private final Observer observer;
+    private final Queue<DownloadTask> downloadQueue;
     private String username;
     private SecurePasswordStore keyStore;
     private String domain;
-    private Deque<DownloadTask> queue;
+
 
     public SmbDownload(String username, String domain, SecurePasswordStore keyStore) {
         this(username, domain, keyStore, new NullObserver());
     }
+
     public SmbDownload(String username, String domain, SecurePasswordStore keyStore, Observer observer) {
-        this(username, domain, keyStore, new ConcurrentLinkedDeque<>(), observer);
+        this(username, domain, keyStore, observer, new ArrayDeque<>());
     }
 
-    public SmbDownload(String username, String domain, SecurePasswordStore keyStore, Deque<DownloadTask> queue, Observer observer) {
+    public SmbDownload(String username, String domain, SecurePasswordStore keyStore, Observer observer, Queue<DownloadTask> downloadQueue) {
         this.username = username;
         this.domain = domain;
         this.keyStore = keyStore;
-        this.queue = queue;
         this.observer = observer;
+        this.downloadQueue = downloadQueue;
     }
 
     @Override
-    public void StartDownload(String source, String destination, EncryptedString password) throws DownloadException, KeyStoreException {
+    public void startDownload(String source, String destination, EncryptedString password) throws DownloadException, KeyStoreException {
         try {
             NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, username, keyStore.decrypt(password));
             SmbFile root = new SmbFile(source, auth);
-            DownloadFile(root, destination);
-        } catch (SmbException |
-                MalformedURLException |
-                UnknownHostException ex){
+            downloadFile(root, destination);
+        } catch (SmbException | MalformedURLException | UnknownHostException ex) {
             throw new DownloadException(ex);
-        } catch (NoSuchPaddingException |
-                InvalidKeyException |
-                NoSuchAlgorithmException |
-                IllegalBlockSizeException |
-                BadPaddingException |
-                InvalidAlgorithmParameterException |
-                UnsupportedEncodingException ex) {
+        } catch (NoSuchPaddingException | InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException | UnsupportedEncodingException ex) {
             throw new KeyStoreException(ex);
         }
     }
 
-    private void DownloadFile(SmbFile root, String destinationFolder) throws SmbException, MalformedURLException, UnknownHostException {
+    private void downloadFile(SmbFile root, String destinationFolder) throws SmbException, MalformedURLException, UnknownHostException {
         if(root.isDirectory()) {
             SmbFile[] files = root.listFiles();
             for(SmbFile f: files){
-                DownloadFile(f, destinationFolder);
+                downloadFile(f, destinationFolder);
             }
+        } else {
+            TransferFile sourceFile = new SmbTransferFile(root);
+            String destination = destinationFolder + sourceFile.getName();
+            TransferFile destinationFile = new LocalTransferFile(new File(destination));
+            downloadQueue.add(new SmbDownloadTask(sourceFile, destinationFile, observer));
+            setChanged();
+            notifyObservers();
         }
-        TransferFile sourceFile = new SmbTransferFile(root);
-        String destination = destinationFolder + sourceFile.getName();
-        TransferFile destinationFile = new LocalTransferFile(new File(destination));
-        queue.addLast(new SmbDownloadTask(sourceFile, destinationFile, observer));
-    }
-
-    public Deque<DownloadTask> getQueue() {
-        return queue;
     }
 }

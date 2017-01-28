@@ -1,7 +1,6 @@
 package ch.chiodo.sssync.sync.network;
 
 import ch.chiodo.sssync.sync.file.*;
-import jcifs.smb.SmbFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +29,7 @@ public class SmbDownloadTask extends DownloadTask {
             moveFile(op, destinationFile, newPath);
         }
         copyFile(op, sourceFile, destinationFile);
+        setChanged();
         notifyObservers(sourceFile);
     }
 
