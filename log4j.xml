@@ -7,10 +7,14 @@
             </PatternLayout>
         </File>
     </Appenders>
-
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %.-1level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
     <Loggers>
         <Root level="error">
-            <AppenderRef ref="File"/>
+            <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
 
