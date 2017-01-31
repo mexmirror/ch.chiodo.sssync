@@ -1,5 +1,7 @@
 package ch.chiodo.sssync.sync.file;
 
+import org.joda.time.DateTime;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,4 +13,6 @@ public interface TransferFile {
     String getFilePath();
     boolean exists();
     String getName();
+    boolean fileIsSame(TransferFile other);
+    DateTime getLastModified();
 }

@@ -13,7 +13,7 @@ public class SmbDownloadTask extends DownloadTask {
     public SmbDownloadTask(TransferFile source, TransferFile destination, Observer observer) {
         this.source = source;
         this.destination = destination;
-        this.addObserver(observer);
+        addObserver(observer);
     }
 
     @Override
@@ -23,12 +23,14 @@ public class SmbDownloadTask extends DownloadTask {
     }
 
     void startTransfer(FileOperationStrategy op, TransferFile sourceFile, TransferFile destinationFile) {
-        if(destinationFile.exists()) {
-            String originPath = destinationFile.getFilePath();
-            String newPath = FileDownloadHelper.getFilenameWithDate(originPath);
-            moveFile(op, destinationFile, newPath);
+        if(!sourceFile.fileIsSame(destinationFile)){
+            if(destinationFile.exists()) {
+                String originPath = destinationFile.getFilePath();
+                String newPath = FileDownloadHelper.getFilenameWithDate(originPath);
+                moveFile(op, destinationFile, newPath);
+            }
+            copyFile(op, sourceFile, destinationFile);
         }
-        copyFile(op, sourceFile, destinationFile);
         setChanged();
         notifyObservers(sourceFile);
     }

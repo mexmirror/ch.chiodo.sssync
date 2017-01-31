@@ -1,8 +1,10 @@
 package ch.chiodo.sssync.sync.file;
 
+import org.joda.time.DateTime;
 import java.io.*;
 
 public class LocalTransferFile implements TransferFile {
+
     private File file;
 
     public LocalTransferFile(File file) {
@@ -37,5 +39,15 @@ public class LocalTransferFile implements TransferFile {
     @Override
     public String getName() {
         return file.getName();
+    }
+
+    @Override
+    public boolean fileIsSame(TransferFile other) {
+        return FileDownloadHelper.equalsTransferFile(this, other);
+    }
+
+    @Override
+    public DateTime getLastModified() {
+        return new DateTime(file.lastModified());
     }
 }

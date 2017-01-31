@@ -2,6 +2,7 @@ package ch.chiodo.sssync.sync.file;
 
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
+import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,5 +54,19 @@ public class SmbTransferFile implements TransferFile {
     @Override
     public String getName() {
         return file.getName();
+    }
+
+    @Override
+    public boolean fileIsSame(TransferFile other) {
+        return FileDownloadHelper.equalsTransferFile(this, other);
+    }
+
+    @Override
+    public DateTime getLastModified() {
+        try {
+            return new DateTime(file.lastModified());
+        } catch (SmbException e) {
+            throw new NetworkException(e);
+        }
     }
 }
