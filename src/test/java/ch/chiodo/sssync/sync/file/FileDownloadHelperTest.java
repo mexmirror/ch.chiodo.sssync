@@ -60,7 +60,24 @@ public class FileDownloadHelperTest {
         TransferFile destination = mock(TransferFile.class);
         when(source.getLastModified()).thenReturn(timestampOne);
         when(destination.getLastModified()).thenReturn(timestampTwo);
+        ByteArrayInputStream inputStreamOne = new ByteArrayInputStream("File mock1".getBytes());
+        ByteArrayInputStream inputStreamTwo = new ByteArrayInputStream("File mock2".getBytes());
+        when(source.createInputStream()).thenReturn(inputStreamOne);
+        when(destination.createInputStream()).thenReturn(inputStreamTwo);
         boolean result = FileDownloadHelper.equalsTransferFile(source, destination);
         assertThat(result, is(false));
+    }
+
+    @Test(expected = NetworkException.class)
+    public void throwsException() throws Exception {
+        DateTime timestampOne = DateTime.parse("2011-12-03T10:15:30", DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss"));
+        DateTime timestampTwo = DateTime.parse("2011-12-03T10:15:45", DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss"));
+        TransferFile source = mock(TransferFile.class);
+        TransferFile destination = mock(TransferFile.class);
+        when(source.getLastModified()).thenReturn(timestampOne);
+        when(destination.getLastModified()).thenReturn(timestampTwo);
+        when(source.createInputStream()).thenReturn(null);
+        when(destination.createInputStream()).thenReturn(null);
+        boolean result = FileDownloadHelper.equalsTransferFile(source, destination);
     }
 }
